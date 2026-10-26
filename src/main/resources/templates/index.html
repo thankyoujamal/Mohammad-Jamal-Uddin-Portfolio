@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${profile.name}">Mohammad Jamal Uddin</title>
+    <meta name="description" th:content="${profile.title + ' — ' + profile.summary}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav>
+    <div class="wrap">
+        <a class="logo" href="#top">mjamal<span>.dev</span></a>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="wrap" id="top">
+    <header class="hero">
+        <div class="hero-grid">
+            <div>
+                <div class="eyebrow" th:text="${profile.title + ' · ' + profile.location}">Software Engineer · Kolkata, India</div>
+                <h1 th:text="${profile.name}">Mohammad Jamal Uddin</h1>
+                <p class="lede" th:text="${profile.summary}"></p>
+                <div class="cta">
+                    <a class="btn primary" href="#projects">See my work</a>
+                    <a class="btn ghost" href="#contact">Get in touch</a>
+                </div>
+            </div>
+            <div class="term" aria-label="Spring Boot style startup log">
+                <div class="term-bar"><i></i><i></i><i></i></div>
+<pre><span class="line"><span class="d">  .   ____          _</span></span><span class="line"><span class="d"> /\\ / ___'_ __ _ _(_)_ __  __ _</span></span><span class="line"><span class="d">( ( )\___ | '_ | '_| | '_ \/ _` |</span></span><span class="line"><span class="d"> \\/  ___)| |_)| | | | | || (_| |</span></span><span class="line"><span class="d">  '  |____| .__|_| |_|_| |_\__, |</span></span><span class="line"><span class="d">        =|_|==============|___/=</span></span><span class="line"> </span><span class="line"><span class="a">INFO</span> Loading profile: <span class="ok">jamal</span></span><span class="line"><span class="a">INFO</span> Role ......... Java Developer</span><span class="line"><span class="a">INFO</span> Stack ........ Java · Spring Boot · MySQL</span><span class="line"><span class="a">INFO</span> Also ......... Python · React</span><span class="line"><span class="a">INFO</span> Learning ..... AI · ML · Docker</span><span class="line"><span class="a">INFO</span> Degree ....... MCA, Techno India</span><span class="line"><span class="a">INFO</span> Open to ...... Developer roles</span><span class="line"><span class="ok">Started Portfolio in 1.84 seconds</span></span></pre>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="about">
+        <h2>About</h2>
+        <p>I'm an <strong>MCA graduate</strong> and aspiring software engineer. My interests span backend development
+            with <strong>Java and Spring Boot</strong>, <strong>Python</strong>, modern full-stack web development and
+            <strong>Artificial Intelligence</strong>. I enjoy turning ideas into working software with clean architecture
+            and maintainable code. I'm looking for a Software Developer role where I can contribute, learn from
+            experienced engineers and grow.</p>
+    </section>
+
+    <section id="experience">
+        <h2>Experience</h2>
+        <div class="row" th:each="job : ${profile.experience}">
+            <div class="when" th:text="${job.period}">Jul 2026 – Present</div>
+            <div>
+                <h3 th:text="${job.role}">Role</h3>
+                <p class="org" th:text="${job.company}">Company</p>
+                <ul>
+                    <li th:each="item : ${job.highlights}" th:text="${item}"></li>
+                </ul>
+                <div class="flow" th:if="${job.flow != null}" aria-label="Workflow">
+                    <th:block th:each="step, s : ${job.flow}">
+                        <span th:text="${step}"></span><b th:unless="${s.last}">→</b>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects">
+            <article class="proj" th:each="p : ${profile.projects}">
+                <div class="kind" th:text="${p.context}">Academic</div>
+                <h3 th:text="${p.name}">Project</h3>
+                <p th:text="${p.description}"></p>
+                <div class="tags"><span class="tag" th:each="t : ${p.stack}" th:text="${t}"></span></div>
+                <a th:if="${p.link != null}" th:href="${p.link}" th:text="${#strings.replace(p.link, 'https://', '')}"
+                   target="_blank" rel="noopener"></a>
+            </article>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills">
+            <div th:each="g : ${profile.skills}">
+                <h3 th:text="${g.category}">Category</h3>
+                <div class="tags"><span class="tag" th:each="s : ${g.items}" th:text="${s}"></span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2>Education</h2>
+        <div class="edu">
+            <div th:each="e : ${profile.education}">
+                <h3 th:text="${e.degree}">Degree</h3>
+                <p th:text="${e.institute}">Institute</p>
+                <div class="cgpa"><span th:text="${e.period}"></span><span th:if="${e.cgpa != null}">CGPA <strong th:text="${e.cgpa}"></strong></span></div>
+            </div>
+        </div>
+        <ul class="certs">
+            <li th:each="c : ${profile.certifications}" th:text="${c.period != null ? c.name + ' · ' + c.period : c.name}"></li>
+        </ul>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <div class="contact-grid">
+            <div>
+                <p class="big">Looking for a Java developer? Let's talk.</p>
+                <div class="links">
+                    <div><span class="k">email</span><a id="email" th:href="'mailto:' + ${profile.email}" th:text="${profile.email}"></a><button class="copy" type="button" data-copy="email">copy</button></div>
+                    <div><span class="k">phone</span><a id="phone" th:href="'tel:' + ${#strings.replace(profile.phone, ' ', '')}" th:text="${profile.phone}"></a><button class="copy" type="button" data-copy="phone">copy</button></div>
+                    <div><span class="k">linkedin</span><a th:href="${profile.linkedin}" target="_blank" rel="noopener">in/mdjamal-uddin</a></div>
+                    <div><span class="k">github</span><a th:href="${profile.github}" th:text="${#strings.replace(profile.github, 'https://github.com/', '')}" target="_blank" rel="noopener"></a></div>
+                </div>
+            </div>
+            <form id="contact-form" novalidate>
+                <label for="cf-name">Name<input id="cf-name" name="name" required maxlength="100" autocomplete="name"></label>
+                <label for="cf-email">Email<input id="cf-email" name="email" type="email" required maxlength="150" autocomplete="email"></label>
+                <label for="cf-msg">Message<textarea id="cf-msg" name="message" required maxlength="2000"></textarea></label>
+                <div><button class="btn primary" type="submit">Send message</button></div>
+                <p class="note" id="cf-note" aria-live="polite"></p>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap">
+        <span th:text="'© ' + ${year} + ' ' + ${profile.name}">© 2026 Mohammad Jamal Uddin</span>
+        <span>Built with Java 21 · Spring Boot · Thymeleaf</span>
+    </div>
+</footer>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
